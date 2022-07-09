@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/08 21:33:17 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:10:38 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ t_fork	*fork_init(void)
 	t_fork	*fork;
 
 	fork = malloc(sizeof(t_fork));
-	pthread_mutex_init(&fork->fork, NULL);
+	pthread_mutex_init(&(fork->fork), NULL);
 	fork->next = NULL;
 	fork->prev = NULL;
+	return (fork);
 }
 
 void	add_back_fork(t_fork **lst, t_fork *new)
@@ -46,7 +47,7 @@ void	fill_forks(t_fork **head, int num)
 {
 	int		i;
 	t_fork	*tmp;
-	t_fork	*h;
+	// t_fork	*h;
 
 	i = 0;
 	if (!(*head))
@@ -56,7 +57,7 @@ void	fill_forks(t_fork **head, int num)
 		tmp->next = tmp;
 		tmp->prev = tmp;
 	}
-	h = *head;
+	// h = *head;
 	while (i < num)
 	{
 		tmp = fork_init();

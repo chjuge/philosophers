@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 17:42:40 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:16:54 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ t_philo	*philo_init(t_fork *fork, int num, t_state *st)
 	philo->x = num;
 	philo->next = NULL;
 	philo->prev = NULL;
-	philo->thread = NULL;
-	philo->left_fork = fork->fork;
-	philo->right_fork = fork->next->fork;
+	philo->left_fork = &(fork->fork);
+	philo->right_fork = &(fork->next->fork);
 	philo->last_meal = 0;
-	philo->dead = 0;
-	philo->must_die = 0;
 	philo->state = st;
 	philo->zhralraz = 0;
+	return (philo);
 }
 
 void	add_back_philo(t_philo **lst, t_philo *new)
@@ -54,7 +52,6 @@ void	fill_philos(t_philo **philo_h, int num, t_state *st)
 {
 	int		i;
 	t_philo	*tmp;
-	t_philo	*h;
 	t_fork	*tmpf;
 
 	tmpf = st->forks;
@@ -66,7 +63,6 @@ void	fill_philos(t_philo **philo_h, int num, t_state *st)
 		tmp->next = tmp;
 		tmp->prev = tmp;
 	}
-	h = *philo_h;
 	while (i <= num)
 	{
 		tmp = philo_init(tmpf, i, st);

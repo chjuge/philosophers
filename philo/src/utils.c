@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:05:35 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 17:30:02 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/09 20:07:50 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,28 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t len)
+{
+	unsigned char	tmp1;
+	unsigned char	tmp2;
+
+	while (len-- > 0)
+	{
+		tmp1 = (unsigned char) *s1++;
+		tmp2 = (unsigned char) *s2++;
+		if (tmp1 != tmp2)
+			return (tmp1 - tmp2);
+		if (tmp1 == '\0')
+			return (0);
+	}
+	return (0);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c < '0' || c > '9')
+		return (0);
+	return (1);
 }
