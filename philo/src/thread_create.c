@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:37:21 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/11 16:13:26 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/11 16:53:39 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ int	death_check(t_philo *tmp, t_state *st)
 
 int	all_ate_check(int min_meals, t_state *st)
 {
-	// pthread_mutex_lock(&(st->peace_death));
 	pthread_mutex_lock(&(st->writing));
 	printf("\n**** min meals  = %d\n", min_meals);
 	pthread_mutex_unlock(&(st->writing));
 	if (min_meals >= st->meals_cnt)
 		st->all_ate = 1;
-	// pthread_mutex_unlock(&(st->peace_death));
 	return (st->all_ate);
 }
 
@@ -121,32 +119,16 @@ int	check_peace_death(t_state *st)
 void	*activity(void *philo)
 {
 	t_philo	*ph;
-	// t_state	*st;
 
 	ph = (t_philo *)philo;
 
-	// st = ph->state;
 	while (death_check(ph, ph->state) != 1)
-	// while (ph->zhralraz < ph->state->meals_cnt)
 	{
-		if (check_peace_death(ph->state))
-		// if (ph->state->all_ate == 1 || ph->state->deadinside)
-			// pthread_exit(NULL);
-			return (NULL);
 		philo_eats(ph);
-		if (check_peace_death(ph->state))
-		// if (ph->state->all_ate == 1 || ph->state->deadinside)
-			// pthread_exit(NULL);	
-			return (NULL);
 		print_action(ph, ph->state, "is sleeping");
 		ft_usleep(ph->state->t_t_sleep);
-		// if (ph->state->all_ate == 1 || ph->state->deadinside)
-		if (check_peace_death(ph->state))
-			// pthread_exit(NULL);
-			return (NULL);
 		print_action(ph, ph->state, "is thinking");
 	}
-	// pthread_exit(NULL);
 	return (NULL);
 }
 
