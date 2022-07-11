@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:33:24 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 21:16:18 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:29:00 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	init_state(char **argv, t_state *st)
 		if (st->meals_cnt < 1)
 			return (1);
 	}
+	else
+		st->meals_cnt = 2000000;
 	init_mutexes(st);
 	return (0);
 }

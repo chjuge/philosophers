@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:37:21 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 21:22:32 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:26:38 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,29 @@ int	death_check(t_philo *tmp, t_state *st)
 
 	res = 0;
 	pthread_mutex_lock(&(st->meal_check));
-	// pthread_mutex_lock(st->meal_check);
+	// pthread_mutex_lock(&(st->writing));
+	pthread_mutex_lock(&(st->peace_death));
 	if (get_time_diff(get_time(), tmp->last_meal) > st->t_t_death)
 	{
-		pthread_mutex_lock(&(st->peace_death));
 		print_action(tmp, st, "died");
 		st->deadinside = 1;
-		pthread_mutex_unlock(&(st->peace_death));
 		res = 1;
 	}
+	pthread_mutex_unlock(&(st->peace_death));
 	pthread_mutex_unlock(&(st->meal_check));
-	// pthread_mutex_unlock(st->meal_check);
+	// pthread_mutex_unlock(&(st->writing));
 	return (res);
 }
 
 int	all_ate_check(int min_meals, t_state *st)
 {
-	pthread_mutex_lock(&(st->peace_death));
+	// pthread_mutex_lock(&(st->peace_death));
+	pthread_mutex_lock(&(st->writing));
+	printf("\n**** min meals  = %d\n", min_meals);
+	pthread_mutex_unlock(&(st->writing));
 	if (min_meals >= st->meals_cnt)
 		st->all_ate = 1;
-	pthread_mutex_unlock(&(st->peace_death));
+	// pthread_mutex_unlock(&(st->peace_death));
 	return (st->all_ate);
 }
 
@@ -49,22 +52,37 @@ void	*life_checker(void *state)
 	t_state *st;
 
 	st = (t_state *)state;
-	while (1)
+	min_meals = 0;
+	while (min_meals < st->meals_cnt)
 	{
-		ft_usleep(100);
-		i = 1;
+		ft_usleep(400);
+		i = 0;
+		min_meals = st->philo->zhralraz;
 		tmp = st->philo;
-		min_meals = 0;
-		while (i++ <= st->num_philo)
+		while (i++ < st->num_philo)
 		{
 			if (death_check(tmp, st))
-				pthread_exit(NULL) ;
+			{
+				// pthread_mutex_lock(&(st->writing));
+				// printf("\n****** someone died\n");
+				// pthread_mutex_unlock(&(st->writing));
+				return (NULL);
+			}
 			if (min_meals > tmp->zhralraz)
 				min_meals = tmp->zhralraz;
+			tmp = tmp->next;
 		}
 		if (all_ate_check(min_meals, st))
-			pthread_exit(NULL);
+		{
+			// pthread_mutex_lock(&(st->writing));
+			// printf("\n****** svse poeli\n");
+			// pthread_mutex_unlock(&(st->writing));
+			// pthread_exit(NULL);
+			return (NULL);
+		}
+		// ft_usleep(200);
 	}
+	return (NULL);
 }
 
 void philo_eats(t_philo *ph)
@@ -72,18 +90,20 @@ void philo_eats(t_philo *ph)
 	t_state	*st;
 
 	st = ph->state;
-	pthread_mutex_lock(ph->left_fork);
-	print_action(ph, st, "has taken a fork");
+	if (ph->state->num_philo < 2)
+		return ;
 	pthread_mutex_lock(ph->right_fork);
 	print_action(ph, st, "has taken a fork");
+	pthread_mutex_lock(ph->left_fork);
+	print_action(ph, st, "has taken a fork");
 	pthread_mutex_lock(&(st->meal_check));
-	print_action(ph, st, "is eating");
 	ph->last_meal = get_time();
-	pthread_mutex_unlock(&(st->meal_check));
-	ft_usleep(st->t_t_eat);
 	ph->zhralraz += 1;
-	pthread_mutex_unlock(ph->left_fork);
+	pthread_mutex_unlock(&(st->meal_check));
+	print_action(ph, st, "is eating");
+	ft_usleep(st->t_t_eat);
 	pthread_mutex_unlock(ph->right_fork);
+	pthread_mutex_unlock(ph->left_fork);
 }
 
 int	check_peace_death(t_state *st)
@@ -91,32 +111,42 @@ int	check_peace_death(t_state *st)
 	int	res;
 
 	res = 0;
+	pthread_mutex_lock(&(st->peace_death));
 	if (st->deadinside || st->all_ate)
 		res = 1;
+	pthread_mutex_unlock(&(st->peace_death));
 	return (res);
 }
 
 void	*activity(void *philo)
 {
 	t_philo	*ph;
-	t_state	*st;
+	// t_state	*st;
 
 	ph = (t_philo *)philo;
-	st = ph->state;
+	// st = ph->state;
 	while (1)
+	// while (ph->zhralraz < ph->state->meals_cnt)
 	{
-		if (check_peace_death(st))
-			break ;
+		if (check_peace_death(ph->state))
+		// if (ph->state->all_ate == 1 || ph->state->deadinside)
+			// pthread_exit(NULL);
+			return (NULL);
 		philo_eats(ph);
-		if (check_peace_death(st))
-			break ;
+		if (check_peace_death(ph->state))
+		// if (ph->state->all_ate == 1 || ph->state->deadinside)
+			// pthread_exit(NULL);	
+			return (NULL);
 		print_action(ph, ph->state, "is sleeping");
 		ft_usleep(ph->state->t_t_sleep);
-		if (check_peace_death(st))
-			break ;
+		// if (ph->state->all_ate == 1 || ph->state->deadinside)
+		if (check_peace_death(ph->state))
+			// pthread_exit(NULL);
+			return (NULL);
 		print_action(ph, ph->state, "is thinking");
 	}
-	pthread_exit(NULL);
+	// pthread_exit(NULL);
+	return (NULL);
 }
 
 void	even(t_philo *head, t_philo *ph)
@@ -126,7 +156,7 @@ void	even(t_philo *head, t_philo *ph)
 		ph = ph->next->next;
 		pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 	}
-	ft_usleep(100);
+	ft_usleep(10);
 	ph = head->next;
 	pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 	while (ph->next->next != head->next)
@@ -143,7 +173,7 @@ void	odd(t_philo *head, t_philo *ph)
 		ph = ph->next->next;
 		pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 	}
-	ft_usleep(100);
+	ft_usleep(10);
 	ph = head->next;
 	pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 	while (ph->next->next->next != head->next)
@@ -151,7 +181,7 @@ void	odd(t_philo *head, t_philo *ph)
 		ph = ph->next->next;
 		pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 	}
-	ft_usleep(100);
+	ft_usleep(10);
 	ph = head->prev;
 	pthread_create(&(ph->thread), NULL, activity, (void *)ph);
 }
@@ -207,34 +237,45 @@ void	finish_simulation(t_state *st)
 	t_philo	*ph;
 
 	ph = st->philo;
-	pthread_join(st->life, NULL);
 	i = 0;
+	pthread_join(st->life, NULL);
 	while (i++ < st->num_philo)
 	{
 		pthread_join(ph->thread, NULL);
 		ph = ph->next;
 	}
-	destroy_mutexes(st);
-	free_philos(st->philo);
-	free_forks(st->forks);
+	// ft_usleep(100);
+	// destroy_mutexes(st);
+	// free_forks(st->forks);
+	// free_philos(st->philo);
 }
 
 void	init_simulation(t_state *st)
 {
 	t_philo	*ph;
-	int		num;
+	// int		num;
 
 	ph = st->philo;
-	num = st->num_philo;
+	// num = 0;
 	st->first_tmst = get_time();
+	// while (num++ < st->num_philo)
+	// {
+	// 	ph->last_meal = st->first_tmst;
+	// 	if (num % 2 != 1)
+	// 		ft_usleep(300);
+	// 	pthread_create(&(ph->thread), NULL, activity, (void *)ph);
+	// 	// pthread_detach(ph->thread);
+	// 	ph = ph->next;
+
+	// }
 	pthread_create(&(ph->thread), NULL, activity, (void *)ph);
-	if (num > 1)
-	{
-		if (num % 2 == 0)
-			even(st->philo, ph);
-		else
-			odd(st->philo, ph);
-	}
+	ph->last_meal = st->first_tmst;
+	if (st->num_philo % 2 == 0)
+		even(st->philo, ph);
+	else
+		odd(st->philo, ph);
 	pthread_create(&(st->life), NULL, life_checker, (void *)st);
+	// ft_usleep(1600);
 	finish_simulation(st);
+	// pthread_join(st->life, NULL);
 }
