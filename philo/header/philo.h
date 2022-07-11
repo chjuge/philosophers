@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:40:00 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 21:07:44 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:51:42 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@
 # include <sys/time.h>
 typedef struct s_philo
 {
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*fork_min_id;
+	pthread_mutex_t	*fork_max_id;
 	pthread_t		thread;
 	struct s_philo	*next;
 	struct s_philo	*prev;
 	int				x;
 	int				last_meal;
 	int				zhralraz;
+	int				dead;
 	struct s_state	*state;
 }	t_philo;
 
 typedef struct s_fork
 {
 	pthread_mutex_t	fork;
+	int				id;
 	struct s_fork	*next;
 	struct s_fork	*prev;
 }	t_fork;

@@ -6,13 +6,13 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 21:10:38 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:10:12 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-t_fork	*fork_init(void)
+t_fork	*fork_init(int i)
 {
 	t_fork	*fork;
 
@@ -20,6 +20,8 @@ t_fork	*fork_init(void)
 	pthread_mutex_init(&(fork->fork), NULL);
 	fork->next = NULL;
 	fork->prev = NULL;
+	fork->id = i;
+	// printf("fork id: %d\n", fork->id);
 	return (fork);
 }
 
@@ -52,15 +54,16 @@ void	fill_forks(t_fork **head, int num)
 	i = 0;
 	if (!(*head))
 	{
-		tmp = fork_init();
+		tmp = fork_init(i);
 		*head = tmp;
 		tmp->next = tmp;
 		tmp->prev = tmp;
+		i++;
 	}
 	// h = *head;
 	while (i < num)
 	{
-		tmp = fork_init();
+		tmp = fork_init(i);
 		add_back_fork(head, tmp);
 		i++;
 	}
