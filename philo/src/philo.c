@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:33:24 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 13:42:16 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:24:40 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	init_mutexes(t_state *st)
 {
 	pthread_mutex_init(&(st->meal_check), NULL);
 	pthread_mutex_init(&(st->writing), NULL);
-	pthread_mutex_init(&(st->peace_death), NULL);
 	st->forks = NULL;
 	fill_forks(&(st->forks), st->num_philo);
 }
@@ -41,7 +40,7 @@ static int	init_state(char **argv, t_state *st)
 			return (1);
 	}
 	else
-		st->meals_cnt = 2000000;
+		st->meals_cnt = -1;
 	init_mutexes(st);
 	return (0);
 }

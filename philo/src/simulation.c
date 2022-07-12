@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 13:16:38 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 13:47:22 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:23:43 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	destroy_mutexes(t_state *st)
 	t_fork	*f;
 
 	pthread_mutex_destroy(&(st->meal_check));
-	pthread_mutex_destroy(&(st->peace_death));
 	pthread_mutex_destroy(&(st->writing));
 	i = 0;
 	f = st->forks;
@@ -52,17 +51,7 @@ static void	destroy_mutexes(t_state *st)
 
 void	finish_simulation(t_state *st)
 {
-	int		i;
-	t_philo	*ph;
-
-	ph = st->philo;
-	i = 0;
 	pthread_join(st->life, NULL);
-	while (i++ < st->num_philo)
-	{
-		pthread_join(ph->thread, NULL);
-		ph = ph->next;
-	}
 	destroy_mutexes(st);
 	free_forks(st->forks, st->num_philo);
 	free_philos(st->philo, st->num_philo);

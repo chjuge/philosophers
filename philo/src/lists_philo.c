@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 13:43:22 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:42:31 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static t_philo	*philo_init(t_fork *fork, int num, t_state *st)
 	philo->last_meal = 0;
 	philo->state = st;
 	philo->zhralraz = 0;
-	philo->dead = 0;
 	return (philo);
 }
 

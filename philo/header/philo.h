@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:40:00 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 13:39:12 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:41:33 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_philo
 	int				x;
 	int				last_meal;
 	int				zhralraz;
-	int				dead;
 	struct s_state	*state;
 }	t_philo;
 
@@ -51,7 +50,6 @@ typedef struct s_state
 	int					first_tmst;
 	pthread_mutex_t		meal_check;
 	pthread_mutex_t		writing;
-	pthread_mutex_t		peace_death;
 	t_fork				*forks;
 	t_philo				*philo;
 	int					all_ate;

@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:37:21 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 14:06:28 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:35:47 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static void	philo_eats(t_philo *ph)
 	print_action(ph, st, "has taken a fork");
 	pthread_mutex_lock(&(st->meal_check));
 	ph->last_meal = get_time();
-	ph->zhralraz += 1;
-	print_action(ph, st, "is eating");
 	pthread_mutex_unlock(&(st->meal_check));
+	print_action(ph, st, "is eating");
 	ft_usleep(st->t_t_eat);
+	ph->zhralraz += 1;
 	pthread_mutex_unlock(ph->fork_min_id);
 	pthread_mutex_unlock(ph->fork_max_id);
 }
@@ -48,20 +48,18 @@ void	*activity(void *philo)
 	return (NULL);
 }
 
-int	death_check_life(t_philo *tmp, t_state *st)
+static int	death_check_life(t_philo *tmp, t_state *st)
 {
 	int	res;
 
 	res = 0;
 	pthread_mutex_lock(&(st->meal_check));
-	pthread_mutex_lock(&(st->peace_death));
 	if ((get_time() - tmp->last_meal) > st->t_t_death)
 	{
 		res = 1;
 		st->deadinside = 1;
 		print_action(tmp, st, "died");
 	}
-	pthread_mutex_unlock(&(st->peace_death));
 	pthread_mutex_unlock(&(st->meal_check));
 	return (res);
 }
@@ -75,7 +73,7 @@ void	*life_checker(void *state)
 
 	st = (t_state *)state;
 	min_meals = 0;
-	while (min_meals < st->meals_cnt)
+	while (st->all_ate != 1)
 	{
 		ft_usleep(1);
 		i = 0;
