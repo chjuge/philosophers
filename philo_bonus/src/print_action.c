@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:17:15 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 22:05:30 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 22:25:27 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void	print_action(t_philo *ph, t_state *st, char *str)
 		return ;
 	sem_wait(st->writing);
 	printf("%d ", get_time() - st->first_tmst);
-	printf("%d is %s\n", ph->x, str);
+	printf("%d %s\n", ph->x, str);
 	sem_post(st->writing);
 }
