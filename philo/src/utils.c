@@ -6,18 +6,13 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:05:35 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/09 20:07:50 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:41:26 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-int	get_time_diff(int now, int before)
-{
-	return (now - before);
-}
-
-int	get_time (void)
+int	get_time(void)
 {
 	struct timeval	t;
 

@@ -6,7 +6,7 @@
 #    By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/08 10:40:08 by mproveme          #+#    #+#              #
-#    Updated: 2022/07/09 20:53:03 by mproveme         ###   ########.fr        #
+#    Updated: 2022/07/12 13:50:19 by mproveme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ SRCS	=	$(DIR)/ft_atoi.c \
 			$(DIR)/philo.c \
 			$(DIR)/print_action.c \
 			$(DIR)/thread_create.c \
-			$(DIR)/utils.c 
+			$(DIR)/utils.c \
+			$(DIR)/simulation.c \
+			$(DIR)/check.c 
 
 OBJS	= 	$(SRCS:.c=.o)
 

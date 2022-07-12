@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/11 15:10:12 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:21:30 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_fork	*fork_init(int i)
 	fork->next = NULL;
 	fork->prev = NULL;
 	fork->id = i;
-	// printf("fork id: %d\n", fork->id);
 	return (fork);
 }
 
@@ -49,7 +48,6 @@ void	fill_forks(t_fork **head, int num)
 {
 	int		i;
 	t_fork	*tmp;
-	// t_fork	*h;
 
 	i = 0;
 	if (!(*head))
@@ -60,11 +58,27 @@ void	fill_forks(t_fork **head, int num)
 		tmp->prev = tmp;
 		i++;
 	}
-	// h = *head;
 	while (i < num)
 	{
 		tmp = fork_init(i);
 		add_back_fork(head, tmp);
+		i++;
+	}
+}
+
+void	free_forks(t_fork *head, int num)
+{
+	t_fork	*tmp;
+	t_fork	*tmp_n;
+	int		i;
+
+	tmp = head;
+	i = 0;
+	while (i < num)
+	{
+		tmp_n = tmp->next;
+		free(tmp);
+		tmp = tmp_n;
 		i++;
 	}
 }

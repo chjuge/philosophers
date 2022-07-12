@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:40:00 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/11 15:51:42 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:39:12 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,38 @@ typedef struct s_state
 	pthread_t			life;
 }	t_state;
 
+/* ft_atoi.c */
+int		ft_atoi(const char *str);
+/* ft_atoi.c */
+/* ft_itoa.c */
+char	*ft_itoa(int n);
+/* ft_itoa.c */
+/* ustils.c */
 int		ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t len);
-int		ft_atoi(const char *str);
-char	*ft_itoa(int n);
 size_t	ft_strlen(const char *s);
 int		get_time (void);
-int		get_time_diff(int now, int before);
 void	ft_usleep(int ms);
+/* ustils.c */
+/* lists_forks.c */
 void	fill_forks(t_fork **head, int num);
+void	free_forks(t_fork *head, int num);
+/* lists_forks.c */
+/* lists_philo.c */
 void	fill_philos(t_philo **philo_h, int num, t_state *st);
+void	free_philos(t_philo *head, int num);
+/* lists_philo.c */
 void	print_action(t_philo *ph, t_state *st, char *str);
+/* simulation.c */
 void	init_simulation(t_state *st);
+void	finish_simulation(t_state *st);
+/* simulation.c */
+void	*activity(void *philo);
+void	*life_checker(void *state);
+/* check.c */
+int	death_check(t_philo *tmp, t_state *st);
+int	all_ate_check(int min_meals, t_state *st);
+int	check_peace_death(t_state *st);
+/* check.c */
+
 #endif

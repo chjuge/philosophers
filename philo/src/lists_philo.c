@@ -6,16 +6,14 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:02:53 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/11 15:52:11 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:43:22 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	min_max(t_fork **min, t_fork **max, t_fork *base)
+static void	min_max(t_fork **min, t_fork **max, t_fork *base)
 {
-	// min = 0;
-	// max = 0;
 	if (base->id < base->next->id)
 	{
 		*min = base;
@@ -26,12 +24,9 @@ void	min_max(t_fork **min, t_fork **max, t_fork *base)
 		*min = base->next;
 		*max = base;
 	}
-	// if (!min || !max)
-	// 	return ;
-	// printf("min: %d, max : %d\n", min->id, max->id);
 }
 
-t_philo	*philo_init(t_fork *fork, int num, t_state *st)
+static t_philo	*philo_init(t_fork *fork, int num, t_state *st)
 {
 	t_philo	*philo;
 	t_fork	*max;
@@ -46,19 +41,14 @@ t_philo	*philo_init(t_fork *fork, int num, t_state *st)
 	philo->prev = NULL;
 	philo->fork_min_id = &(min->fork);
 	philo->fork_max_id = &(max->fork);
-	// philo->fork_min_id = &(fork->fork);
-	// philo->fork_max_id = &(fork->next->fork);
 	philo->last_meal = 0;
 	philo->state = st;
 	philo->zhralraz = 0;
 	philo->dead = 0;
-	// printf("min: %d, max : %d\n", fork->id, fork->next->id);
-	// printf("min: %d, max : %d\n", min->id, max->id);
-	// printf("philo: %d, min: %d, max : %d\n", philo->x, min->id, max->id);
 	return (philo);
 }
 
-void	add_back_philo(t_philo **lst, t_philo *new)
+static void	add_back_philo(t_philo **lst, t_philo *new)
 {
 	t_philo	*tmp;
 
@@ -100,5 +90,22 @@ void	fill_philos(t_philo **philo_h, int num, t_state *st)
 		add_back_philo(philo_h, tmp);
 		i++;
 		tmpf = tmpf->next;
+	}
+}
+
+void	free_philos(t_philo *head, int num)
+{
+	t_philo	*tmp;
+	t_philo	*tmp_n;
+	int		i;
+
+	tmp = head;
+	i = 0;
+	while (i < num)
+	{
+		tmp_n = tmp->next;
+		free(tmp);
+		tmp = tmp_n;
+		i++;
 	}
 }
