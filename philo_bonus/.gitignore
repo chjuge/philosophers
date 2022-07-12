@@ -1,0 +1,5 @@
+main*
+*test*
+a.out
+.vscode
+*.o
