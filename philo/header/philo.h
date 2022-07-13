@@ -6,12 +6,13 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:40:00 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 15:41:33 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:28:23 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO
-# define PHILO
+#ifndef PHILO_H
+# define PHILO_H
+
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
@@ -19,6 +20,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <sys/time.h>
+
 typedef struct s_philo
 {
 	pthread_mutex_t	*fork_min_id;
@@ -67,7 +69,7 @@ char	*ft_itoa(int n);
 int		ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t len);
 size_t	ft_strlen(const char *s);
-int		get_time (void);
+int		get_time(void);
 void	ft_usleep(int ms);
 /* ustils.c */
 /* lists_forks.c */
@@ -86,9 +88,9 @@ void	finish_simulation(t_state *st);
 void	*activity(void *philo);
 void	*life_checker(void *state);
 /* check.c */
-int	death_check(t_philo *tmp, t_state *st);
-int	all_ate_check(int min_meals, t_state *st);
-int	check_peace_death(t_state *st);
+int		death_check(t_philo *tmp, t_state *st);
+int		all_ate_check(int min_meals, t_state *st);
+int		check_peace_death(t_state *st);
 /* check.c */
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:37:21 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 15:35:47 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:42:57 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	philo_eats(t_philo *ph)
 	t_state	*st;
 
 	st = ph->state;
-	if (ph->state->num_philo < 2)
-		return ;
 	pthread_mutex_lock(ph->fork_min_id);
 	print_action(ph, st, "has taken a fork");
 	pthread_mutex_lock(ph->fork_max_id);
@@ -40,6 +38,8 @@ void	*activity(void *philo)
 	ph = (t_philo *)philo;
 	while (death_check(ph, ph->state) != 1)
 	{
+		if (ph->state->num_philo < 2)
+			continue ;
 		philo_eats(ph);
 		print_action(ph, ph->state, "is sleeping");
 		ft_usleep(ph->state->t_t_sleep);

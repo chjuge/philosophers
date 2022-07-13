@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 23:05:35 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 13:41:26 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:47:43 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void	ft_usleep(int ms)
 {
 	int	t;
 
-	t = get_time() + ms;
-	while (get_time() < t)
-		usleep(ms / 1000);
+	t = 1000 * ms;
+	usleep(t);
 }
 
 size_t	ft_strlen(const char *s)
