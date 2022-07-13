@@ -6,19 +6,11 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 22:33:24 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 20:56:24 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:22:11 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
-
-// static void	init_mutexes(t_state *st)
-// {
-// 	pthread_mutex_init(&(st->meal_check), NULL);
-// 	pthread_mutex_init(&(st->writing), NULL);
-// 	st->forks = NULL;
-// 	fill_forks(&(st->forks), st->num_philo);
-// }
 
 static void	init_semaphores(t_state *st)
 {
@@ -36,8 +28,6 @@ static int	init_state(char **argv, t_state *st)
 	st->t_t_death = ft_atoi(argv[2]);
 	st->t_t_eat = ft_atoi(argv[3]);
 	st->t_t_sleep = ft_atoi(argv[4]);
-	// st->all_ate = 0;
-	// st->deadinside = 0;
 	if (st->num_philo < 1 || st->t_t_death < 1 || st->t_t_eat < 1
 		|| st->t_t_sleep < 1)
 	{
@@ -51,7 +41,6 @@ static int	init_state(char **argv, t_state *st)
 	}
 	else
 		st->meals_cnt = -1;
-	// init_mutexes(st);
 	init_semaphores(st);
 	return (0);
 }

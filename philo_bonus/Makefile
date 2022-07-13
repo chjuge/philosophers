@@ -6,21 +6,19 @@
 #    By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/08 10:40:08 by mproveme          #+#    #+#              #
-#    Updated: 2022/07/12 20:46:11 by mproveme         ###   ########.fr        #
+#    Updated: 2022/07/13 14:16:13 by mproveme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 DIR		= 	src
 
 SRCS	=	$(DIR)/ft_atoi.c \
-			$(DIR)/ft_itoa.c \
 			$(DIR)/lists_philo.c \
 			$(DIR)/philo.c \
 			$(DIR)/print_action.c \
 			$(DIR)/thread_create.c \
 			$(DIR)/utils.c \
-			$(DIR)/simulation.c \
-			$(DIR)/check.c 
+			$(DIR)/simulation.c
 
 OBJS	= 	$(SRCS:.c=.o)
 
@@ -31,7 +29,7 @@ CFLAGS	=	-Wall -Wextra -Werror -pthread
 
 RM		=	rm -rf
 
-NAME	=	philo
+NAME	=	philo_bonus
 
 all:		$(NAME)
 

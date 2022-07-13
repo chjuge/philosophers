@@ -3,3 +3,5 @@ main*
 a.out
 .vscode
 *.o
+philo
+philo_bonus

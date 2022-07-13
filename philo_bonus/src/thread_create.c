@@ -6,7 +6,7 @@
 /*   By: mproveme <mproveme@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:37:21 by mproveme          #+#    #+#             */
-/*   Updated: 2022/07/12 22:23:24 by mproveme         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:24:07 by mproveme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ void	*life_checker(void *philo)
 	ph = (t_philo *)philo;
 	while (ph->zhralraz != ph->state->meals_cnt)
 	{
-		ft_usleep(2);
+		ft_usleep(5);
 		sem_wait(ph->state->meal_check);
 		if ((get_time() - ph->last_meal) > ph->state->t_t_death)
 		{
-			print_action(ph, ph->state, "dead");
+			print_action(ph, ph->state, "died");
 			ph->dead = 1;
-			// sem_post(ph->state->meal_check);
 			sem_wait(ph->state->writing);
-			exit(1);
+			exit (1);
 		}
 		sem_post(ph->state->meal_check);
 	}
